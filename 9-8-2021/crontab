@@ -1,0 +1,95 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=""
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+01 6 * * * root /usr/bin/mysqldump --opt --all-databases -u dev -pdev > /root/mysql_dumps/dump_all_dbs_8am.sql
+01 5 * * * root /usr/bin/mysqldump --column-statistics=0 --opt --all-databases -h mysql56 -u dev -pdev > /root/mysql_dumps/dump_all_dbs_mysql56_8am.sql
+01 4 * * * root /usr/bin/mysqldump --column-statistics=0 --opt --all-databases -h mariadb101 -u dev -pdev > /root/mysql_dumps/dump_all_dbs_mariadb101_8am.sql
+
+
+#############
+# Homeapp
+############
+0 * * * * root wget -q -O -  http://homeappetitphilly.dev.securedatatransit.com/wp/wp-cron.php >/dev/null 2>&1
+
+#############
+# mautic - brian
+#####
+* * * * * root /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/bessig/sites/mautic.com/app/console mautic:segments:update
+* * * * * root /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/bessig/sites/mautic.com/app/console mautic:campaigns:rebuild
+* * * * * root /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/bessig/sites/mautic.com/app/console mautic:campaigns:trigger
+* * * * * root /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/bessig/sites/mautic.com/app/console mautic:emails:send
+
+#*/10 * * * * azaman /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/azaman/sites/debraggam2.com/subdomains/www/htdocs/bin/magento cron:run
+
+#*/10 * * * * azaman /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/azaman/sites/debraggam2.com/subdomains/www/htdocs/update/cron.php
+
+#*/10 * * * * azaman /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/azaman/sites/debraggam2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+#*/10 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/debraggam2.com/subdomains/www/htdocs/bin/magento cron:run
+
+#*/10 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/debraggam2.com/subdomains/www/htdocs/update/cron.php
+
+#*/10 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/debraggam2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+#*/10 * * * * bessig /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/bessig/sites/debraggam2.com/subdomains/www/htdocs/bin/magento cron:run
+
+#*/10 * * * * bessig /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/bessig/sites/debraggam2.com/subdomains/www/htdocs/update/cron.php
+
+#*/10 * * * * bessig /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/bessig/sites/debraggam2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+
+#*/10 * * * * jkim /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/jkim/sites/debraggam2.com/subdomains/www/htdocs/bin/magento cron:run
+
+#*/10 * * * * jkim /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/jkim/sites/debraggam2.com/subdomains/www/htdocs/update/cron.php
+
+#*/10 * * * * jkim /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/jkim/sites/debraggam2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+
+
+#*/10 * * * * asifsomy /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/asifsomy/sites/debraggam2.com/subdomains/www/htdocs/bin/magento cron:run
+#*/10 * * * * asifsomy /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/asifsomy/sites/debraggam2.com/subdomains/www/htdocs/update/cron.php
+#*/10 * * * * asifsomy /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/asifsomy/sites/debraggam2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+
+#*/1 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/absolutefencinggearm2.com/subdomains/www/htdocs/bin/magento cron:run
+#*/10 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/absolutefencinggearm2.com/subdomains/www/htdocs/update/cron.php
+#*/10 * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/staging/sites/absolutefencinggearm2.com/subdomains/www/htdocs/bin/magento setup:cron:run
+
+
+#* * * * * bessig /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php /home/bessig/sites/shopbaobaoisseymiyake.com/subdomains/www/htdocs/bin/magento cron:run
+#* * * * * prasad /usr/local/src/php_versions/phpbrew/php/php-7.2.3/bin/php /home/prasad/sites/solexcatsmo.com/subdomains/www/htdocs/bin/magento cron:run
+#* * * * * azaman /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php /home/azaman/sites/solexcatsmo.com/subdomains/www/htdocs/bin/magento cron:run
+
+#* * * * * ckoleda /usr/local/src/php_versions/phpbrew/php/php-7.2.23/bin/php /home/ckoleda/sites/solex/solexcatsmohome.com/subdomains/www/htdocs/bin/magento cron:run
+
+#* * * * * staging /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/staging/sites/wickerwarehouse.com/subdomains/www/htdocs/cron.php
+*/10 * * * * bessig /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php /home/bessig/sites/wickerwarehouse.com/subdomains/www/htdocs/cron.php
+#* * * * * azaman /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/azaman/sites/wickerwarehouse.com/subdomains/www/htdocs/cron.php
+#* * * * * jkim /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php  /home/jkim/sites/wickerwarehouse.com/subdomains/www/htdocs/cron.php
+
+####################
+# Argyle Alerts
+#####################
+#0 * * * * root /usr/bin/wget -q --user cdadmin --password admin123 http://argylealerts2.dev.securedatatransit.com/watch-list/process-watchlists
+
+#0 * * * * root /usr/bin/php /home/dev/sites/argylealerts.com/subdomains/www/application/scripts/process-watchlists.php
+
+#* * * * * asifsomy /usr/local/src/php_versions/phpbrew/php/php-7.0.32/bin/php /home/asifsomy/sites/solexcatsmohome.com/subdomains/www/htdocs/bin/magento cron:run
+* * * * * lscura wget -q -O - 'https://mirakelley-lscura.dev.securedatatransit.com/wp-cron.php?doing_wp_cron&cron=true'
+
+*/1 * * * * lscura curl https://marketsmedia-lscura.dev.securedatatransit.com/wp-cron.php?doing_wp_cron > /dev/null 2>&1
+
+
+* * * * * cd /home/khalil/sites/av.evokegroup.com && php artisan schedule:run >> /dev/null 2>&1
